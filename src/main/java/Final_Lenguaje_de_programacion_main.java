@@ -1,5 +1,5 @@
 /**
- *  Definir el tema a trabajar (supermercado, vivero, farmacia, disquera)
+ *  Definir el tema a trabajar (supermercado)
  * 
  * construir una registradora de ventas:
  * 

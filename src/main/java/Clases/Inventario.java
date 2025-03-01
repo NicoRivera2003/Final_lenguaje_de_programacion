@@ -1,7 +1,8 @@
-
+package Clases;
 import java.util.ArrayList;
 
 public class Inventario {
+    
     private ArrayList<Producto> productos = new ArrayList<>();
     
     public void descontaProductos() {

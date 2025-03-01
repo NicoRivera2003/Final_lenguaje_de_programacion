@@ -1,3 +1,4 @@
+package Main;
 /**
  * Definir el tema a trabajar (Supermercado)
  * 
@@ -15,9 +16,7 @@
 public class Final_Lenguaje_de_programacion_main {
 
     public static void main(String[] args) {
-        Producto p1 = new Producto();
+        System.out.println("Bienvenido a la registradora de ventas");
         
-        String inf = p1.toString();
-        System.out.println(inf);
     }
 }

@@ -12,7 +12,7 @@ public class Producto {
         this.cantidad = cantidad;
     }
     
-    public String Id() {
+    public String getId() {
         return id;
     }
 
@@ -27,6 +27,12 @@ public class Producto {
     public int getCantidad() {
         return cantidad;
     }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+    
+    
     
     @Override
     public String toString() {

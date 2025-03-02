@@ -1,23 +1,34 @@
 package Clases;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Inventario {
     
-    private ArrayList<Producto> productos;
+    private List<Producto> productos = new ArrayList<>();
 
-    public Inventario() {
-        this.productos = new ArrayList<>();
-    }
+
     
     public void agregarProducto(Producto producto) {
         productos.add(producto);
     }
     
-    public void mostrarInventario() {
-        for (Producto producto : productos) {
-            System.out.println(producto);
-        }
+    public Producto buscarProducto(String id) {
+        return productos.stream().filter(p -> p.getId().equals(id)).findFirst().orElse(null);
+    }
+    
+    public void actualizarProducto(Producto producto) {
+        productos.stream().filter(p -> p.getId().equals(producto.getId())).findFirst().ifPresent(p -> {
+            p.setCantidad(producto.getCantidad());
+        });
+    }
+    
+    public void mostrarProductos() {
+        productos.forEach(System.out::println);
+    }
+    
+     public List<Producto> getProductos() {
+        return productos;
     }
     
 }

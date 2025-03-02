@@ -2,8 +2,11 @@ package Main;
 
 import Clases.Inventario;
 import Clases.Producto;
+import Clases.Venta;
 import java.util.Scanner;
 import Menu.Menu;
+import java.time.LocalDateTime;
+import Clases.RegistroDeVentas;
 
 
 /**
@@ -30,6 +33,8 @@ import Menu.Menu;
 public class Final_Lenguaje_de_programacion_main {
     
     public static void main(String[] args) {
+        
+        Scanner entrada = new Scanner(System.in);
         Inventario inventario = new Inventario();
         Producto producto1 = new Producto("001", "Leche", 3500, 10);
         Producto producto2 = new Producto("002", "Azucar", 2000, 15);
@@ -49,18 +54,20 @@ public class Final_Lenguaje_de_programacion_main {
         inventario.agregarProducto(producto6);
         inventario.agregarProducto(producto7);
         inventario.agregarProducto(producto8);
+        inventario.agregarProducto(producto9);
+        inventario.agregarProducto(producto10);
         
-        inventario.mostrarInventario();
-        Menu menu = new Menu();
+        //inventario.mostrarInventario();
+        RegistroDeVentas registroDeVentas = new RegistroDeVentas();
+        Menu menu = new Menu(inventario, registroDeVentas);
         int opcion;
         
         do {
             menu.mostrarMenu();
-            opcion = menu.obtenerOpcion();
+            opcion = entrada.nextInt();
             menu.procesarOpcion(opcion);
-        } while (opcion != 5);
+        } while (opcion != 8);
         
-       
         
     }
 }

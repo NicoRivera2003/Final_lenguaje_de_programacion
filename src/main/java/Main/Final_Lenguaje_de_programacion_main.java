@@ -41,25 +41,16 @@ public class Final_Lenguaje_de_programacion_main {
         Producto producto3 = new Producto("003", "Pan", 4000, 18);
         Producto producto4 = new Producto("004", "Huevo", 800, 40);
         Producto producto5 = new Producto("005", "Galleta Noel", 6500, 25);
-        Producto producto6 = new Producto("006", "Harina", 3500, 12);
-        Producto producto7 = new Producto("007", "Cafe", 9000, 20);
-        Producto producto8 = new Producto("008", "Queso Colanta", 4500, 8);
-        Producto producto9 = new Producto("009", "Mantequilla rama", 12000, 30);
-        Producto producto10 = new Producto("0010", "Cebolla", 1200, 16);
+        
         inventario.agregarProducto(producto1);
         inventario.agregarProducto(producto2);
         inventario.agregarProducto(producto3);
         inventario.agregarProducto(producto4);
         inventario.agregarProducto(producto5);
-        inventario.agregarProducto(producto6);
-        inventario.agregarProducto(producto7);
-        inventario.agregarProducto(producto8);
-        inventario.agregarProducto(producto9);
-        inventario.agregarProducto(producto10);
         
-        //inventario.mostrarInventario();
         RegistroDeVentas registroDeVentas = new RegistroDeVentas();
         Menu menu = new Menu(inventario, registroDeVentas);
+        
         int opcion;
         
         do {

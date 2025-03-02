@@ -32,8 +32,6 @@ public class Producto {
         this.cantidad = cantidad;
     }
     
-    
-    
     @Override
     public String toString() {
         return "ID:"+this.id+"\nNombre:"+this.Nombre+"\nPrecio: $"+this.precio+"\nCantidad:"+this.cantidad+"\n";

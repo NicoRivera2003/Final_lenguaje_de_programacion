@@ -1,18 +1,22 @@
 package Clases;
 
 import java.time.LocalDateTime;
+import Clases.Producto;
+import java.util.List;
 
 public class Venta {
     private String codigoDeVenta;
     private LocalDateTime fecha;
     private Producto producto;
     private int cantidad;
+    private List<Producto> productos; /*Lista para productos vendidos*/
 
-    public Venta(String codigoDeVenta, LocalDateTime fecha, Producto producto, int cantidad) {
+    public Venta(String codigoDeVenta, LocalDateTime fecha, Producto producto, int cantidad, List<Producto> productos) {
         this.codigoDeVenta = codigoDeVenta;
         this.fecha = fecha;
         this.producto = producto;
         this.cantidad = cantidad;
+        this.productos = productos;
     }
 
     public String getCodigoDeVenta() {

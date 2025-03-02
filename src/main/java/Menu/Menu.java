@@ -8,7 +8,7 @@ public class Menu {
     
     private Scanner entrada = new Scanner(System.in);
     private Inventario inventario = new Inventario();
-    private RegistroDeVentas registroDeVentas;
+    private RegistroDeVentas registroDeVentas = new RegistroDeVentas();
 
     public Menu(Inventario inventario, RegistroDeVentas registroDeVentas) {
         this.inventario = inventario;
@@ -28,9 +28,11 @@ public class Menu {
     public void procesarOpcion(int opcion) {
         switch (opcion) {
             case 1: 
-            
-            case 2:
+                System.out.println("REGISTRAR VENTA");
                 inventario.mostrarProductos();
+                break;
+            case 2:
+                
             case 3:
                 
             case 4:

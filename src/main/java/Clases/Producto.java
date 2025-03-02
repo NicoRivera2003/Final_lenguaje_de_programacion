@@ -5,7 +5,14 @@ public class Producto {
     private double precio;
     private int cantidad;
 
-    public String getId() {
+    public Producto(String id, String Nombre, double precio, int cantidad) {
+        this.id = id;
+        this.Nombre = Nombre;
+        this.precio = precio;
+        this.cantidad = cantidad;
+    }
+    
+    public String Id() {
         return id;
     }
 
@@ -23,6 +30,6 @@ public class Producto {
     
     @Override
     public String toString() {
-        return "ID:"+this.id+"\nNombre:"+this.Nombre+"\nPrecio:"+this.precio+"\nCantidad:"+this.cantidad;
+        return "ID:"+this.id+"\nNombre:"+this.Nombre+"\nPrecio: $"+this.precio+"\nCantidad:"+this.cantidad+"\n";
     }
 }

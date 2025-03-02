@@ -1,36 +1,32 @@
 package Clases;
+
 import java.util.ArrayList;
 
 public class Inventario {
     
-    private ArrayList<Producto> productos = new ArrayList<>();
-    
-    public void descontaProductos() {
-        
+    private ArrayList<Producto> productos;
+
+    public Inventario() {
+        this.productos = new ArrayList<>();
     }
     
-    public void consultarInfo() {
-        
+    public void agregarProducto(Producto producto) {
+        productos.add(producto);
     }
     
-    public void totalCompra() {
-        
-    }
-    
-    public void infGeneral() {
-        
-    }
-    
-    public void infEspecifica() {
-        
-    }
-    
-    public void nuevoProducto() {
-        
-    }
-    
-    public void actualizarInventario() {
-        
+    public void mostrarInventario() {
+        for (Producto producto : productos) {
+            System.out.println(producto);
+        }
     }
     
 }
+
+
+    
+    
+    
+    
+    
+    
+

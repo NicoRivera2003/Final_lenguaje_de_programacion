@@ -39,6 +39,6 @@ public class Producto {
    
    @Override
     public String toString() {
-        return "Producto["+"ID: "+id+"/"+"Nombre: "+nombre+"/"+ "Precio: $"+precio+"/"+"Cantidad en stock: "+cantidad+"]";
+        return "ID: " + id + ", Nombre: " + nombre + ", Precio: $" + precio + ", Cantidad: " + cantidad;
     }
 }

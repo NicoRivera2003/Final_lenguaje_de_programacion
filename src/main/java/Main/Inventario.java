@@ -43,30 +43,38 @@ public class Inventario {
             opcion = entrada.nextInt();
             
             switch (opcion) {
-                case 1:
-                    mostrarProducto();
-                    realizarVenta();
-                    break;
-                case 2:
-                    mostrarVentas();
-                    break;
-                case 3:
-                    mostrarValorCompra();
-                    break;
-                case 4:
-                    informacionProductos();
-                    break;
-                case 5:
-                    registrarProducto();
-                    break;
-                case 6:
-                    mostrarProducto();                    
-                    break;
-                case 7:
-                    opcion=5;
-                    break;
-                default:
+                case 1 -> {
+                        mostrarProducto();
+                        realizarVenta();
+                        break;
+                }
+                case 2 -> {
+                        mostrarVentas();
+                        break;
+                }
+                case 3 -> {
+                        mostrarValorCompra();
+                        break;
+                }
+                case 4 -> {
+                        informacionProductos();
+                        break;
+                }
+                case 5 -> {
+                        registrarProducto();
+                        break;
+                }
+                case 6 -> {
+                        mostrarProducto();                    
+                        break;
+                }
+                case 7 -> {
+                        opcion=5;
+                        break;
+                }
+                default -> {
                     
+                }     
             }    
         }while(opcion!=5);
         
@@ -236,7 +244,7 @@ public class Inventario {
             
             
             switch (opc) {
-                case 1:
+                case 1 -> {
                     System.out.println("Ingrese el nombre del producto que desea consultar:");
                     nombreProducto1 = entrada.next().toLowerCase();
                 
@@ -252,17 +260,15 @@ public class Inventario {
                         System.out.println("Nombre: "+productoEncontrado.getNombre());
                         System.out.println("Cantidad: "+productoEncontrado.getCantidad());
                     }
-                    break;
+                }
                 
-                case 2:
+                case 2 -> {
                     System.out.println("Ingrese el nombre del producto que desea consultar:");
                     nombreProducto2 = entrada.next().toLowerCase();
-                
-                    productoEncontrado = productos.stream()
+                    Producto productoEncontrado = productos.stream()
                             .filter(p -> p.getNombre().equals(nombreProducto2))
                             .findFirst()
                             .orElse(null);
-                
                     if (productoEncontrado == null) {
                         System.out.println("Producto no encontrado...");
                     } else {
@@ -272,13 +278,10 @@ public class Inventario {
                         System.out.println("Precio: "+productoEncontrado.getPrecio());
                         System.out.println("Descripcion: ");
                     }
-                    break;
+                }
                     
-                case 3:
-                    opc = 3;
-                    break;
-                default:
-                    System.out.println("Ingrese una opcion valida");
+                case 3 -> opc = 3;
+                default -> System.out.println("Ingrese una opcion valida");
             } 
         } while(opc != 3);
         

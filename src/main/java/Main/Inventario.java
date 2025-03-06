@@ -13,7 +13,7 @@ expresiones lambda, Stream y funciones preexistentes, construir una aplicación 
 2. Simular un inventario del que se descuentan productos comprados.
 3. Consultar información de los registros.
 4. Mostrar el valor total de la compra.
-5. Consultar de información general (cantidad) y específica sobre un producto (Nombre, id, precio y descripción).
+5. Consulta de información general (cantidad) y específica sobre un producto (Nombre, id, precio y descripción).
 6. Cargar nuevos productos.  
 7. Actualizar productos existentes.
 8. Mostrar el promedio de ventas por semana, mes y año.
@@ -37,7 +37,7 @@ public class Inventario {
         do {
             System.out.println(" ");
             System.out.println("Opciones: ");
-            System.out.println("1. Realizar venta\n2. Mostrar ventas\n3. Salir");
+            System.out.println("1. Realizar venta\n2. Mostrar ventas\n3. Total de la compra \n4. Consultar informacion de productos");
             System.out.print("Ingrese la opcion que desea: ");
             opcion = entrada.nextInt();
             
@@ -50,12 +50,17 @@ public class Inventario {
                     mostrarVentas();
                     break;
                 case 3:
-                    opcion=3;
+                    mostrarValorCompra();
                     break;
+                case 4:
+                    informacionProductos();
+                    break;
+                case 5:
+                    opcion=5;
                 default:
                     
             }    
-        }while(opcion!=3);
+        }while(opcion!=5);
         
     }
     
@@ -88,7 +93,7 @@ public class Inventario {
     /*Función para realizar una venta y obtener la fecha*/
     private static void realizarVenta() {
         System.out.print("Ingrese el ID del producto que desea vender: ");
-        String idProducto = entrada.next();
+        String idProducto = entrada.next().toLowerCase();
         
         Producto productoSeleccionado = null; /*Asigno un objeto nulo a la variable productoSeleccionado*/
         for (Producto producto : productos) {
@@ -189,6 +194,86 @@ public class Inventario {
                 System.out.println(productos.get(i));
             }
         }
+    }
+    
+    private static void mostrarValorCompra() {
+        if(ventas.isEmpty()) {
+            System.out.println("No se han registrado ventas aun...");
+            return;
+        }
+        
+        double totalCompra = 0;
+        
+        for(Venta venta : ventas) {
+            Producto producto = productos.stream() /*Llamo a stream desde el array producto*/
+                    .filter(p -> p.getId().equals(venta.getIdProducto()))
+                    .findFirst()
+                    .orElse(null);
+            
+            if(producto != null) {
+                totalCompra += producto.getPrecio() * venta.getCantidad() ;
+            }
+        }
+        
+        System.out.println("El valor total de la compra es: $" + totalCompra+"\nGracias por su compra!!!");
+    }
+    
+    public static void informacionProductos() { 
+        int opc;
+        do {
+            String nombreProducto1, nombreProducto2;
+            System.out.println("Opciones: ");
+            System.out.println("1. Informacion general \n2. Informacion especifica de un producto \n3. Menu principal");
+            opc = entrada.nextInt();
+            
+            
+            switch (opc) {
+                case 1:
+                    System.out.println("Ingrese el nombre del producto que desea consultar:");
+                    nombreProducto1 = entrada.next().toLowerCase();
+                
+                    Producto productoEncontrado = productos.stream()
+                            .filter(p -> p.getNombre().equals(nombreProducto1))
+                            .findFirst()
+                            .orElse(null);
+                
+                    if (productoEncontrado == null) {
+                        System.out.println("Producto no encontrado...");
+                    } else {
+                        System.out.println("INFORMACION GENERAL DEL PRODUCTO '"+productoEncontrado.getNombre()+"'");
+                        System.out.println("Nombre: "+productoEncontrado.getNombre());
+                        System.out.println("Cantidad: "+productoEncontrado.getCantidad());
+                    }
+                    break;
+                
+                case 2:
+                    System.out.println("Ingrese el nombre del producto que desea consultar:");
+                    nombreProducto2 = entrada.next().toLowerCase();
+                
+                    productoEncontrado = productos.stream()
+                            .filter(p -> p.getNombre().equals(nombreProducto2))
+                            .findFirst()
+                            .orElse(null);
+                
+                    if (productoEncontrado == null) {
+                        System.out.println("Producto no encontrado...");
+                    } else {
+                        System.out.println("INFORMACION ESPECIFICA DEL PRODUCTO '"+productoEncontrado.getNombre()+"'");
+                        System.out.println("Nombre: "+productoEncontrado.getNombre());
+                        System.out.println("ID: "+productoEncontrado.getId());
+                        System.out.println("Precio: "+productoEncontrado.getPrecio());
+                        System.out.println("Descripcion: ");
+                    }
+                    break;
+                    
+                case 3:
+                    opc = 3;
+                    break;
+                default:
+                    System.out.println("Ingrese una opcion valida");
+            } 
+        } while(opc != 3);
+        
     }
     
 }

@@ -37,7 +37,8 @@ public class Inventario {
         do {
             System.out.println(" ");
             System.out.println("Opciones: ");
-            System.out.println("1. Realizar venta\n2. Mostrar ventas\n3. Total de la compra \n4. Consultar informacion de productos");
+            System.out.println("1. Realizar venta\n2. Mostrar ventas\n3. Total de la compra \n4. Consultar informacion de productos"
+                    + "\n5. Cargar nuevo producto \n6. Mostrar inventario");
             System.out.print("Ingrese la opcion que desea: ");
             opcion = entrada.nextInt();
             
@@ -56,7 +57,14 @@ public class Inventario {
                     informacionProductos();
                     break;
                 case 5:
+                    registrarProducto();
+                    break;
+                case 6:
+                    mostrarProducto();                    
+                    break;
+                case 7:
                     opcion=5;
+                    break;
                 default:
                     
             }    

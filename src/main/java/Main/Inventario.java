@@ -69,14 +69,14 @@ public class Inventario {
                         break;
                 }
                 case 7 -> {
-                        opcion=5;
+                        opcion=7;
                         break;
                 }
                 default -> {
-                    
+                    System.out.println("Por favor ingrese una opcion valida...");
                 }     
             }    
-        }while(opcion!=5);
+        }while(opcion!=7);
         
     }
     
@@ -95,7 +95,7 @@ public class Inventario {
         p2.setCantidad(19);
         
         Producto p3 = new Producto();
-        p3.setId("p002");
+        p3.setId("p003");
         p3.setNombre("atun");
         p3.setPrecio(5000);
         p3.setCantidad(20);
@@ -174,7 +174,7 @@ public class Inventario {
         entrada.nextLine();
         
         for(int i=0;i<contador;i++) {
-            System.out.println("Ingresar producto"+(i+1));
+            System.out.println("Ingresar producto "+(i+1));
             System.out.println(" ");
             System.out.print("ID: ");
             id = entrada.nextLine();
@@ -198,6 +198,7 @@ public class Inventario {
             aux.setCantidad(cantidad);
             
             productos.add(aux);   
+            System.out.println("Almacenamiento de producto en el inventario exitoso!!!");
         } 
     }
     

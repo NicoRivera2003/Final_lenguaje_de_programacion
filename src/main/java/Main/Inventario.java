@@ -27,7 +27,7 @@ en su totalidad el uso de ciclos.
 */
 public class Inventario {
     static ArrayList<Producto> productos = new ArrayList();   /*Array para almacenar los productos*/
-    static ArrayList<Venta> ventas = new ArrayList<>();
+    static ArrayList<Venta> ventas = new ArrayList<>();      /*Array para almacenar los ventas*/
     static Scanner entrada = new Scanner(System.in);
     
     public static void main(String[] args) {
@@ -38,7 +38,8 @@ public class Inventario {
             System.out.println(" ");
             System.out.println("Opciones: ");
             System.out.println("1. Realizar venta\n2. Mostrar ventas\n3. Total de la compra \n4. Consultar informacion de productos"
-                    + "\n5. Cargar nuevo producto \n6. Mostrar inventario");
+                    + "\n5. Cargar nuevo producto \n6. Mostrar inventario \n7. Mostrar el producto mas vendido \n8. Mostrar el producto menos vendido"
+                    + "\n9. Salir");
             System.out.print("Ingrese la opcion que desea: ");
             opcion = entrada.nextInt();
             
@@ -69,14 +70,24 @@ public class Inventario {
                         break;
                 }
                 case 7 -> {
-                        opcion=7;
+                        productoMasVendido();
+                        break;
+                }
+                
+                case 8 -> {
+                        productoMenosVendido();
+                        break;
+                }
+                
+                case 9 -> {
+                        opcion = 9;
                         break;
                 }
                 default -> {
                     System.out.println("Por favor ingrese una opcion valida...");
                 }     
             }    
-        }while(opcion!=7);
+        }while(opcion!=9);
         
     }
     
@@ -121,7 +132,7 @@ public class Inventario {
         
         if(productoSeleccionado == null) {
             System.out.println("Producto no encontrado");
-            return; /*Si no encuentra el ID para el flujo del método*/
+            return; /*Si no encuentra el ID, se detiene el flujo del método*/
         }
         
         System.out.print("Ingrese la cantidad a vender: ");
@@ -134,6 +145,7 @@ public class Inventario {
             System.out.println("La cantidad de venta debe ser mayor que 0.");
         } else {  /*Si la cantidad cumple con lo que requiere la venta se crea la venta*/
             productoSeleccionado.setCantidad(productoSeleccionado.getCantidad() - cantidadDeVenta);
+            productoSeleccionado.incrementarVentasTotales(cantidadDeVenta);
             
             Venta nuevaVenta = new Venta();
             nuevaVenta.setIdProducto(productoSeleccionado.getId());
@@ -222,10 +234,10 @@ public class Inventario {
         double totalCompra = 0;
         
         for(Venta venta : ventas) {
-            Producto producto = productos.stream() /*Llamo a stream desde el array producto*/
+            Producto producto = productos.stream() /*Llamo a stream para recorrer el arreglo de productos*/
                     .filter(p -> p.getId().equals(venta.getIdProducto()))
-                    .findFirst()
-                    .orElse(null);
+                    .findFirst()   /*Obtiene el primer elemento que cumpla la condición del filtro*/
+                    .orElse(null);  /*Retorna un nulo en caso de que no encuentre el producto*/
             
             if(producto != null) {
                 totalCompra += producto.getPrecio() * venta.getCantidad() ;
@@ -286,6 +298,59 @@ public class Inventario {
             } 
         } while(opc != 3);
         
+    }
+    
+    
+    public static void productoMasVendido() {
+        if (productos.isEmpty()) {
+            System.out.println("No hay productos en el inventario");
+            return;    
+        }
+        Producto productoMasVendido = null;
+        int maxVentas = 0;
+        
+        for(Producto producto : productos ) {
+            if(producto.getVentasTotales() > maxVentas) {
+                maxVentas = producto.getVentasTotales();
+                productoMasVendido = producto;
+            }
+        }
+        
+        if (productoMasVendido != null) {
+            System.out.println("El producto mas vendido es: ");
+            System.out.println("Nombre: " + productoMasVendido.getNombre());
+            System.out.println("ID: " + productoMasVendido.getId());
+            System.out.println("Total de ventas: " + productoMasVendido.getVentasTotales());
+        } else {
+            System.out.println("No se han realizado ventas...");
+        }
+    }
+    
+    public static void productoMenosVendido() {
+        if (productos.isEmpty()) {
+            System.out.println("No hay productos en el inventario.");
+            return;
+        }      
+        
+        Producto productoMenosVendido = null;
+        int minVentas = Integer.MAX_VALUE;
+        
+        for (Producto producto : productos) {
+            if (producto.getVentasTotales() < minVentas) {
+                minVentas = producto.getVentasTotales();
+                productoMenosVendido = producto;
+            }
+        }
+        
+        if (productoMenosVendido != null) {
+            System.out.println("El producto menos vendido es: ");
+            System.out.println("Nombre: " + productoMenosVendido.getNombre());
+            System.out.println("ID: " + productoMenosVendido.getId());
+            System.out.println("Total de ventas: " + productoMenosVendido.getVentasTotales());
+        } else {
+            System.out.println("No se han realizado ventas...");
+        }
+
     }
     
 }

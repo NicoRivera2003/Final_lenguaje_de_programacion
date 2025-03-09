@@ -4,6 +4,7 @@ public class Producto {
    private String nombre;
    private double precio;
    private int cantidad;
+   private int ventasTotales;
 
     public String getId() {
         return id;
@@ -36,6 +37,16 @@ public class Producto {
     public void setPrecio(double precio) {
         this.precio = precio;
     }
+
+    public int getVentasTotales() {
+        return ventasTotales;
+    }
+
+    public void incrementarVentasTotales(int cantidadVendida) {
+        this.ventasTotales += cantidadVendida;
+    }
+    
+    
    
    @Override
     public String toString() {

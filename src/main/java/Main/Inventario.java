@@ -39,7 +39,7 @@ public class Inventario {
             System.out.println("Opciones: ");
             System.out.println("1. Realizar venta\n2. Mostrar ventas\n3. Total de la compra \n4. Consultar informacion de productos"
                     + "\n5. Cargar nuevo producto \n6. Mostrar inventario \n7. Mostrar el producto mas vendido \n8. Mostrar el producto menos vendido"
-                    + "\n9. Salir");
+                    + "\n9. Mostrar productos sin Stock \n10. Salir");
             System.out.print("Ingrese la opcion que desea: ");
             opcion = entrada.nextInt();
             
@@ -80,14 +80,19 @@ public class Inventario {
                 }
                 
                 case 9 -> {
-                        opcion = 9;
+                        productosSinStock();
+                        break;
+                }
+                
+                case 10 -> {
+                        opcion = 10;
                         break;
                 }
                 default -> {
                     System.out.println("Por favor ingrese una opcion valida...");
                 }     
             }    
-        }while(opcion!=9);
+        }while(opcion!=10);
         
     }
     
@@ -351,6 +356,27 @@ public class Inventario {
             System.out.println("No se han realizado ventas...");
         }
 
+    }
+    
+    public static void productosSinStock() {
+        if (productos.isEmpty()) {
+            System.out.println("No hay productos en el inventario...");
+            return;
+        }
+        
+        System.out.println("Productos sin stock: ");
+        boolean hayProductosSinStock = false;
+        
+        for(Producto producto : productos) {
+            if(producto.getCantidad() == 0) {
+                System.out.println(producto);
+                hayProductosSinStock = true;
+            }
+        }
+        
+        if (!hayProductosSinStock) {
+            System.out.println("No hay productos sin stock en este momento...");
+        }
     }
     
 }

@@ -15,7 +15,7 @@ Integrantes:
   - Julian Zapata
   - Nicolás Acevedo Rivera
 
-link de gitHub: 
+link de gitHub: https://github.com/NicoRivera2003/Final_lenguaje_de_programacion
 
 Usando los conceptos necesarios y óptimos de programación funcional como interfaces, 
 expresiones lambda, Stream y funciones preexistentes, construir una aplicación que permita:

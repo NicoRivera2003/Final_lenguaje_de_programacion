@@ -1,10 +1,21 @@
 package Main;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 /* Definir el tema a trabajar (SUPERMERCADO)
+
+Integrantes: 
+  - Andres Calle Usma 
+  - Brian Cardona Arenas
+  - Julian Zapata
+  - Nicolás Acevedo Rivera
+
+link de gitHub: 
 
 Usando los conceptos necesarios y óptimos de programación funcional como interfaces, 
 expresiones lambda, Stream y funciones preexistentes, construir una aplicación que permita:
@@ -33,13 +44,14 @@ public class Inventario {
     public static void main(String[] args) {
         System.out.println("Bienvenido al inventario");
         agregarProductosIniciales(); /*Función para simular el inventario actual*/
+        agregarVentasSimuladas();
         int opcion;
         do {
             System.out.println(" ");
             System.out.println("Opciones: ");
             System.out.println("1. Realizar venta\n2. Mostrar ventas\n3. Total de la compra \n4. Consultar informacion de productos"
-                    + "\n5. Cargar nuevo producto \n6. Mostrar inventario \n7. Mostrar el producto mas vendido \n8. Mostrar el producto menos vendido"
-                    + "\n9. Mostrar productos sin Stock \n10. Salir");
+                    + "\n5. Cargar nuevo producto \n6. Actualizar productos \n7. Mostrar el producto mas vendido \n8. Mostrar el producto menos vendido"
+                    + "\n9. Mostrar productos sin Stock \n10. Mostrar inventario \n11. Mostrar promedio de ventas (semana, mes y ano) \n12 Salir");
             System.out.print("Ingrese la opcion que desea: ");
             opcion = entrada.nextInt();
             
@@ -66,7 +78,8 @@ public class Inventario {
                         break;
                 }
                 case 6 -> {
-                        mostrarProducto();                    
+                        mostrarProducto();
+                        actualizarProducto();
                         break;
                 }
                 case 7 -> {
@@ -85,14 +98,25 @@ public class Inventario {
                 }
                 
                 case 10 -> {
-                        opcion = 10;
+                        mostrarProducto();
+                        break;
+                }
+                
+                case 11 -> {
+                        mostrarPromedioVentas();
+                        break;
+                }
+                
+                case 12 -> {
+                        System.out.println("Gracias por utilizar este sistema, hasta pronto...");
+                        opcion = 12;
                         break;
                 }
                 default -> {
                     System.out.println("Por favor ingrese una opcion valida...");
                 }     
             }    
-        }while(opcion!=10);
+        }while(opcion!=12);
         
     }
     
@@ -103,18 +127,21 @@ public class Inventario {
         p1.setNombre("leche");
         p1.setPrecio(3500);
         p1.setCantidad(15);
+        p1.setDescripcion("leche entera ");
         
         Producto p2 = new Producto();
         p2.setId("p002");
         p2.setNombre("mantequilla");
         p2.setPrecio(8000);
         p2.setCantidad(19);
+        p2.setDescripcion("Mantequilla sin sal");
         
         Producto p3 = new Producto();
         p3.setId("p003");
         p3.setNombre("atun");
         p3.setPrecio(5000);
         p3.setCantidad(20);
+        p3.setDescripcion("atun con aceite");
         
         productos.add(p1);
         productos.add(p2);
@@ -180,6 +207,7 @@ public class Inventario {
         String nombre;
         int cantidad;
         double precio;
+        String descripcion;
         Producto aux; /*Variable de tipo producto para almacenar productos en el array*/
         
         /*Cantidad de productos que el usuario quiera almacenar*/
@@ -205,6 +233,9 @@ public class Inventario {
             System.out.print("Cantidad de stock: ");
             cantidad = entrada.nextInt();
             entrada.nextLine();
+            
+            System.out.print("Descripcion del producto: ");
+            descripcion = entrada.nextLine();
             System.out.println(" ");
             
             aux = new Producto();
@@ -213,6 +244,7 @@ public class Inventario {
             aux.setNombre(nombre);
             aux.setPrecio(precio);
             aux.setCantidad(cantidad);
+            aux.setDescripcion(descripcion);
             
             productos.add(aux);   
             System.out.println("Almacenamiento de producto en el inventario exitoso!!!");
@@ -224,6 +256,7 @@ public class Inventario {
             System.out.println("No hay productos en el inventario");
         } else {
             System.out.println("Productos en el inventario");
+            System.out.println(" ");
             for(int i=0;i<productos.size();i++) {
                 System.out.println(productos.get(i));
             }
@@ -277,6 +310,7 @@ public class Inventario {
                         System.out.println("INFORMACION GENERAL DEL PRODUCTO '"+productoEncontrado.getNombre()+"'");
                         System.out.println("Nombre: "+productoEncontrado.getNombre());
                         System.out.println("Cantidad: "+productoEncontrado.getCantidad());
+                        System.out.println("Descripcion: "+productoEncontrado.getDescripcion());
                     }
                 }
                 
@@ -294,7 +328,7 @@ public class Inventario {
                         System.out.println("Nombre: "+productoEncontrado.getNombre());
                         System.out.println("ID: "+productoEncontrado.getId());
                         System.out.println("Precio: "+productoEncontrado.getPrecio());
-                        System.out.println("Descripcion: ");
+                        System.out.println("Descripcion: "+productoEncontrado.getDescripcion());
                     }
                 }
                     
@@ -323,8 +357,8 @@ public class Inventario {
         
         if (productoMasVendido != null) {
             System.out.println("El producto mas vendido es: ");
-            System.out.println("Nombre: " + productoMasVendido.getNombre());
             System.out.println("ID: " + productoMasVendido.getId());
+            System.out.println("Nombre: " + productoMasVendido.getNombre());
             System.out.println("Total de ventas: " + productoMasVendido.getVentasTotales());
         } else {
             System.out.println("No se han realizado ventas...");
@@ -349,8 +383,8 @@ public class Inventario {
         
         if (productoMenosVendido != null) {
             System.out.println("El producto menos vendido es: ");
-            System.out.println("Nombre: " + productoMenosVendido.getNombre());
             System.out.println("ID: " + productoMenosVendido.getId());
+            System.out.println("Nombre: " + productoMenosVendido.getNombre());          
             System.out.println("Total de ventas: " + productoMenosVendido.getVentasTotales());
         } else {
             System.out.println("No se han realizado ventas...");
@@ -379,4 +413,166 @@ public class Inventario {
         }
     }
     
+    public static void actualizarProducto() {
+        System.out.print("Ingrese el ID del producto que desea actualizar: ");
+        String idProducto = entrada.next().toLowerCase();
+        
+        Producto productoSeleccionado = null;
+        for (Producto producto : productos) {
+            if (producto.getId().equals(idProducto)) {
+                productoSeleccionado = producto;
+                break; // Detenemos la búsqueda si encontramos el producto
+            }
+        }
+        if (productoSeleccionado == null) {
+            System.out.println("Producto no encontrado.");
+            return;
+        }
+        
+        System.out.println("Producto: ");
+        System.out.println("ID: " + productoSeleccionado.getId());
+        System.out.println("Nombre: " + productoSeleccionado.getNombre());
+        System.out.println("Precio: $" + productoSeleccionado.getPrecio());
+        System.out.println("Cantidad: " + productoSeleccionado.getCantidad());
+        System.out.println("Descripcion: "+productoSeleccionado.getDescripcion());
+        
+        System.out.println("\nSeleccione lo que desea actualizar:");
+        System.out.println("1. ID");
+        System.out.println("2. Nombre");
+        System.out.println("3. Precio");
+        System.out.println("4. Cantidad");
+        System.out.println("5. Descripcion");
+        System.out.println("6. Volver al menu principal");
+        
+        int opcion = entrada.nextInt();
+        switch (opcion) {
+            case 1 -> {
+                System.out.print("Ingrese el nuevo ID: ");
+                entrada.nextLine();  // Limpiar el buffer
+                String nuevoID = entrada.nextLine();
+                productoSeleccionado.setNombre(nuevoID);
+                System.out.println("ID actualizado exitosamente.");
+                break;
+            }
+            
+            case 2 -> {
+                System.out.print("Ingrese el nuevo nombre: ");
+                entrada.nextLine();  // Limpiar el buffer
+                String nuevoNombre = entrada.nextLine();
+                productoSeleccionado.setNombre(nuevoNombre);
+                System.out.println("Nombre actualizado exitosamente.");
+                break;
+            }
+            
+            case 3 -> {
+                System.out.print("Ingrese el nuevo precio: ");
+                entrada.nextLine();               
+                double nuevoPrecio = entrada.nextDouble();
+                productoSeleccionado.setPrecio(nuevoPrecio);
+                System.out.println("Precio actualizado exitosamente.");
+                break;
+            }
+            
+            case 4 -> {
+                System.out.print("Ingrese la nueva cantidad: ");
+                entrada.nextLine();
+                int nuevaCantidad = entrada.nextInt();
+                productoSeleccionado.setCantidad(nuevaCantidad);
+                System.out.println("Cantidad actualizada exitosamente.");
+                break;
+            }
+            
+            case 5 -> {
+                System.out.print("Ingrese la nueva descripcion: ");
+                entrada.nextLine();
+                String nuevaDescripcion = entrada.nextLine();
+                productoSeleccionado.setDescripcion(nuevaDescripcion);
+                System.out.println("Descripcion actualizada exitosamente.");
+                break;
+            }
+            
+            case 6 -> {
+                System.out.println("Volviendo al menu principal...");
+                break;
+            }
+            
+            default -> {
+                System.out.println("Por favor seleccione una opcion correcta");
+            }
+                
+        }
+    }
+    
+    public static void agregarVentasSimuladas() {
+        Calendar calendario = Calendar.getInstance();
+        
+        Venta venta1 = new Venta();
+        venta1.setIdProducto("p001");
+        venta1.setCantidad(2);
+        calendario.set(2025, 0, 1); // 1 de enero de 2025
+        venta1.setFecha(calendario.getTime());
+        ventas.add(venta1);
+
+        Venta venta2 = new Venta();
+        venta2.setIdProducto("p002");
+        venta2.setCantidad(3);
+        calendario.set(2025, 2, 14); // 14 de febrero de 2025
+        venta2.setFecha(calendario.getTime());
+        ventas.add(venta2);
+
+        Venta venta3 = new Venta();
+        venta3.setIdProducto("p003");
+        venta3.setCantidad(1);
+        calendario.set(2025, 1, 19);  // 19 de febrero de 2025
+        venta3.setFecha(calendario.getTime());
+        ventas.add(venta3);
+
+        Venta venta4 = new Venta();
+        venta4.setIdProducto("p001");
+        venta4.setCantidad(4);
+        calendario.set(2025, 2, 10);  // 10 de marzo de 2025
+        venta4.setFecha(calendario.getTime());
+        ventas.add(venta4);
+        
+        Venta venta5 = new Venta();
+        venta5.setIdProducto("p002");
+        venta5.setCantidad(5);
+        calendario.set(2025, 3, 5);  // 5 de abril de 2025
+        venta5.setFecha(calendario.getTime());
+        ventas.add(venta5);
+    }
+    
+    public static void mostrarPromedioVentas() {
+        if (ventas.isEmpty()) {
+            System.out.println("No se han registrado ventas.");
+            return;
+        }
+        
+        double promedioSemana = calcularPromedioPorPeriodo(Calendar.WEEK_OF_YEAR);
+        System.out.println("Promedio de ventas por semana: " + promedioSemana);
+        
+        double promedioMes = calcularPromedioPorPeriodo(Calendar.MONTH);
+        System.out.println("Promedio de ventas por mes: " + promedioMes);
+        
+        double promedioAnio = calcularPromedioPorPeriodo(Calendar.YEAR);
+        System.out.println("Promedio de ventas por año: " + promedioAnio);
+    }
+    
+    public static double calcularPromedioPorPeriodo(int periodo) {
+        Calendar calendario = Calendar.getInstance();
+        Map<Integer, Integer> ventasPorPeriodo = new HashMap<>();
+        
+        for (Venta venta : ventas) {
+            calendario.setTime(venta.getFecha());
+            int periodoActual = calendario.get(periodo);
+            ventasPorPeriodo.put(periodoActual, ventasPorPeriodo.getOrDefault(periodoActual, 0) + venta.getCantidad());
+        }
+        
+        double totalVentas = 0;
+        for (int cantidad : ventasPorPeriodo.values()) {
+            totalVentas += cantidad;
+        }
+
+        return totalVentas / ventasPorPeriodo.size();
+    }
 }

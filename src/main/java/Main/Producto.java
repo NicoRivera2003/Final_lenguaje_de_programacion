@@ -4,6 +4,7 @@ public class Producto {
    private String nombre;
    private double precio;
    private int cantidad;
+   private String descripcion;
    private int ventasTotales;
 
     public String getId() {
@@ -45,11 +46,17 @@ public class Producto {
     public void incrementarVentasTotales(int cantidadVendida) {
         this.ventasTotales += cantidadVendida;
     }
-    
-    
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
    
    @Override
     public String toString() {
-        return "ID: " + id + ", Nombre: " + nombre + ", Precio: $" + precio + ", Cantidad: " + cantidad;
+        return "ID: " + id + ", Nombre: " + nombre + ", Precio: $" + precio + ", Cantidad: " + cantidad+", Descripcion: "+descripcion;
     }
 }

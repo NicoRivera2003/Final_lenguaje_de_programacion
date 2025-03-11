@@ -168,25 +168,33 @@ public class Inventario {
         }
         
         System.out.print("Ingrese la cantidad a vender: ");
-        int cantidadDeVenta = entrada.nextInt();
-        
-        /*Compara si la cantidad que tiene el producto es mayor*/
-        if (cantidadDeVenta > productoSeleccionado.getCantidad()) {
-            System.out.println("No hay suficiente stock disponible.");
-        } else if (cantidadDeVenta <= 0) {
-            System.out.println("La cantidad de venta debe ser mayor que 0.");
-        } else {  /*Si la cantidad cumple con lo que requiere la venta se crea la venta*/
-            productoSeleccionado.setCantidad(productoSeleccionado.getCantidad() - cantidadDeVenta);
-            productoSeleccionado.incrementarVentasTotales(cantidadDeVenta);
+        try {
+            int cantidadDeVenta = entrada.nextInt();
+            if (cantidadDeVenta <= 0) {
+                System.out.println("La cantidad debe ser mayor que 0.");
+                return;
+            }
             
-            Venta nuevaVenta = new Venta();
-            nuevaVenta.setIdProducto(productoSeleccionado.getId());
-            nuevaVenta.setCantidad(cantidadDeVenta);
-            nuevaVenta.setFecha(new Date());
+            if (cantidadDeVenta > productoSeleccionado.getCantidad()) {
+                System.out.println("No hay suficiente stock disponible.");
+            } else {
+                /*Se realiza la venta*/
+                productoSeleccionado.setCantidad(productoSeleccionado.getCantidad() - cantidadDeVenta);
+                productoSeleccionado.incrementarVentasTotales(cantidadDeVenta);
             
-            ventas.add(nuevaVenta);
-            System.out.println("Venta realizada con exito!!!");
+                Venta nuevaVenta = new Venta();
+                nuevaVenta.setIdProducto(productoSeleccionado.getId());
+                nuevaVenta.setCantidad(cantidadDeVenta);
+                nuevaVenta.setFecha(new Date());
+            
+                ventas.add(nuevaVenta);
+                System.out.println("Venta realizada con exito!!!");
+            }
+        } catch (Exception e) {
+            System.out.println("Por favor, ingrese un número válido para la cantidad.");
+            entrada.next();
         }
+        
     }
     
     public static void mostrarVentas() {
@@ -202,7 +210,7 @@ public class Inventario {
     
     /*Función para registrar productos por el usuario*/
     private static void registrarProducto() {
-        int contador;
+        int contador=0;
         String id;
         String nombre;
         int cantidad;
@@ -211,10 +219,16 @@ public class Inventario {
         Producto aux; /*Variable de tipo producto para almacenar productos en el array*/
         
         /*Cantidad de productos que el usuario quiera almacenar*/
-        do {
-            System.out.println("Ingrese la cantidad de productos ");
+        System.out.println("Ingrese la cantidad de productos ");
+        try {
             contador = entrada.nextInt();
-        }while(contador<=0);
+            if (contador <= 0) {
+                System.out.println("La cantidad debe ser mayor a 0.");
+            }
+        } catch (Exception e) {
+            System.out.println("Por favor, ingrese un numero valido.");
+            entrada.next();
+        }
         
         entrada.nextLine();
         
@@ -272,7 +286,7 @@ public class Inventario {
         double totalCompra = 0;
         
         for(Venta venta : ventas) {
-            Producto producto = productos.stream() /*Llamo a stream para recorrer el arreglo de productos*/
+            Producto producto = productos.stream() /*Llamo el stream para recorrer el arreglo de productos*/
                     .filter(p -> p.getId().equals(venta.getIdProducto()))
                     .findFirst()   /*Obtiene el primer elemento que cumpla la condición del filtro*/
                     .orElse(null);  /*Retorna un nulo en caso de que no encuentre el producto*/
@@ -300,7 +314,7 @@ public class Inventario {
                     nombreProducto1 = entrada.next().toLowerCase();
                 
                     Producto productoEncontrado = productos.stream()
-                            .filter(p -> p.getNombre().equals(nombreProducto1))
+                            .filter(p -> p.getNombre().equals(nombreProducto1)) /*filtra por los productos que coincidan con la búsqueda*/
                             .findFirst()
                             .orElse(null);
                 
@@ -559,7 +573,12 @@ public class Inventario {
     }
     
     public static double calcularPromedioPorPeriodo(int periodo) {
+        if (ventas.isEmpty()) {
+            throw new IllegalStateException("No se han registrado ventas");
+        }
+        
         Calendar calendario = Calendar.getInstance();
+        /*almacena el número total de ventas agrupado por el periodo específico*/
         Map<Integer, Integer> ventasPorPeriodo = new HashMap<>();
         
         for (Venta venta : ventas) {
@@ -568,6 +587,7 @@ public class Inventario {
             ventasPorPeriodo.put(periodoActual, ventasPorPeriodo.getOrDefault(periodoActual, 0) + venta.getCantidad());
         }
         
+        /*Promedio*/
         double totalVentas = 0;
         for (int cantidad : ventasPorPeriodo.values()) {
             totalVentas += cantidad;
